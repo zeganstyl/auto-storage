@@ -1,20 +1,7 @@
 package com.autostorage.routes
 
-import com.autostorage.ExpirableLoginSession
-import com.autostorage.allList
-import com.autostorage.authorize
-import com.autostorage.badRequest
-import com.autostorage.getOrThrow
-import com.autostorage.idParam
-import com.autostorage.model.Counterparties
-import com.autostorage.model.Counterparty
-import com.autostorage.model.CounterpartyType
-import com.autostorage.model.Order
-import com.autostorage.model.OrderType
-import com.autostorage.model.ProductType
-import com.autostorage.model.StoredProduct
-import com.autostorage.model.getUser
-import com.autostorage.respondFreeMaker
+import com.autostorage.*
+import com.autostorage.model.*
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.freemarker.*
@@ -23,8 +10,9 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
-import org.jetbrains.exposed.sql.not
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.neq
 
 enum class NavLink(val viewName: String, val url: String) {
     Orders("Заявки", PATH.orders),
@@ -33,12 +21,6 @@ enum class NavLink(val viewName: String, val url: String) {
     Counterparties("Контрагенты", PATH.counterparties),
     Stats("Статистика", PATH.stats)
 }
-
-val providerTypes = listOf(
-    CounterpartyType.ProviderCompany,
-    CounterpartyType.ProviderDealer,
-    CounterpartyType.ProviderManufacturer
-)
 
 fun Application.routes() {
     routing {
@@ -65,6 +47,22 @@ fun Application.routes() {
         productsRoute()
         ordersRoute()
         counterpartiesRoute()
+
+        get("list/{itemType}") {
+            authorize {
+                when (ChooseItemType.valueOf(call.parameters["itemType"]!!)) {
+                    ChooseItemType.Clients -> respondFreeMaker("counterpartiesList.ftl",
+                        mapOf("items" to Counterparty.findOrderedList { Counterparties.type eq CounterpartyType.Client })
+                    )
+                    ChooseItemType.Providers -> respondFreeMaker("counterpartiesList.ftl",
+                        mapOf("items" to Counterparty.findOrderedList { Counterparties.type neq CounterpartyType.Client })
+                    )
+                    ChooseItemType.Products -> respondFreeMaker("productsList.ftl",
+                        mapOf("items" to ProductType.allList())
+                    )
+                }
+            }
+        }
 
         route(PATH.stats) {
             get {

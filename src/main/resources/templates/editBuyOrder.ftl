@@ -22,7 +22,7 @@
         </select>
 
         <div class="mt-3">
-            <button type="button" class="btn btn-outline-secondary" style="width: 200px; text-align: center;">Добавить покупку</button>
+            <button id="addProduct" type="button" class="btn btn-outline-secondary" style="width: 200px; text-align: center;" data-toggle="modal" data-target="#chooseItemModal">Добавить покупку</button>
             <a href="/products/submit" target="_blank" style="float: right;">Новый тип товара</a>
         </div>
 

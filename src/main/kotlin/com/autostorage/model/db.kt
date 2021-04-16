@@ -23,10 +23,16 @@ fun getUser(role: String) = getUser(UserRole.valueOf(role))
 
 fun initDB() {
     val config = HikariConfig().apply {
-        username = "postgres"
-        password = "postgres"
-        jdbcUrl = "jdbc:postgresql://localhost:5432/auto-storage"
-        driverClassName = "org.postgresql.Driver"
+        val envDbUrl = System.getenv("DATABASE_URL")
+        if (envDbUrl != null) {
+            username = "postgres"
+            password = "postgres"
+            jdbcUrl = "jdbc:postgresql://localhost:5432/auto-storage"
+            driverClassName = "org.postgresql.Driver"
+        } else {
+            driverClassName = "org.h2.Driver"
+            jdbcUrl = "jdbc:h2:file:./ru.urfu.idea.db-test"
+        }
 
         maximumPoolSize = 3
         isAutoCommit = false

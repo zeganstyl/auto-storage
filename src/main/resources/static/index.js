@@ -38,4 +38,9 @@ $(function() {
         chooseItemType = "Clients"
         chooseListener($(this).parent());
     });
+
+    $("#addProduct").click(function() {
+        chooseItemType = "Products"
+        chooseListener($(this).parent());
+    });
 });

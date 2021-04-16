@@ -16,6 +16,7 @@ val ktor_version = "1.5.2"
 val exposed_version = "0.28.1"
 
 dependencies {
+    implementation("com.h2database:h2:1.4.200")
     implementation("org.postgresql:postgresql:42.2.19")
 
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")

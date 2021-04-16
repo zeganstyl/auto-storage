@@ -22,7 +22,9 @@ import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
@@ -42,6 +44,7 @@ fun Application.module(testing: Boolean = false) {
 
     install(FreeMarker) {
         setClassForTemplateLoading(this::class.java, "/templates/")
+        this.defaultEncoding = "UTF-8"
     }
 
     install(ContentNegotiation) {
@@ -107,3 +110,6 @@ suspend fun ApplicationCall.authorize(block: suspend (user: User) -> Unit) {
 fun badRequest(message: String): Nothing = throw BadRequestException(message)
 
 fun <T: IntEntity> IntEntityClass<T>.allList() = all().orderBy(Pair(table.id, SortOrder.ASC)).toList()
+
+fun <T: IntEntity> IntEntityClass<T>.findOrderedList(op: SqlExpressionBuilder.() -> Op<Boolean>) =
+    find(op).orderBy(Pair(table.id, SortOrder.ASC)).toList()

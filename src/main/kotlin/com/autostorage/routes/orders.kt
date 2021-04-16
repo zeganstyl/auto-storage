@@ -35,8 +35,6 @@ fun Route.ordersRoute() {
                 authorize { user ->
                     val orderType = OrderType.valueOf(call.parameters["type"] ?: badRequest("type is missing"))
 
-                    ProductMove.find { ProductsMoving.order }
-
                     respondFreeMaker(
                         "editBuyOrder.ftl",
                         mapOf(

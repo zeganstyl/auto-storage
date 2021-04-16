@@ -8,7 +8,7 @@
 </tr>
 </thead>
 <tbody>
-    <#list counterparties as counterparty>
+    <#list items as counterparty>
         <tr class="clickableRow">
             <th scope="row" value="${counterparty.id}">
                 <a href="${counterparty.url}" target="_blank">${counterparty.id}</a>

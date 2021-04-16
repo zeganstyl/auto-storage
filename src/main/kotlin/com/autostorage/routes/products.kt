@@ -71,7 +71,7 @@ fun Route.productsRoute() {
                         params["maxRequired"]?.toIntOrNull()?.also { maxRequired = it }
                         params["minRequired"]?.toIntOrNull()?.also { minRequired = it }
                         params["model"]?.also { model = it }
-                        params["providerId"]?.toIntOrNull()?.also { provider = Counterparty[it] }
+                        params["providerId"]?.toIntOrNull()?.also { Counterparty.findById(it).also { provider = it } }
                         params["note"]?.also { note = it }
                         params["cost"]?.toFloatOrNull()?.also { cost = it }
                     }

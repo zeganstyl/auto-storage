@@ -31,7 +31,9 @@
             <td>${product.model}</td>
             <td>${product.carModel}</td>
             <td>
-                <a href="${product.provider.url}">${product.provider.name}</a>
+                <#if product.provider??>
+                    <a href="${product.provider.url}">${product.provider.name}</a>
+                </#if>
             </td>
             <td>${product.cost}</td>
             <td>${product.minRequired}</td>

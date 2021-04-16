@@ -9,7 +9,7 @@
 </tr>
 </thead>
 <tbody>
-<#list providers as provider>
+<#list items as product>
 <tr class="clickableRow">
     <th scope="row" value="${product.id}">
         <a href="${product.url}" target="_blank">${product.id}</a>

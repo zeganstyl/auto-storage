@@ -89,25 +89,5 @@ fun Route.counterpartiesRoute() {
                 }
             }
         }
-
-        get("type/{itemType}") {
-            authorize {
-                val itemType = ChooseItemType.valueOf(call.parameters["itemType"]!!)
-
-                val items = Counterparty.find {
-                    when (itemType) {
-                        ChooseItemType.Clients -> Counterparties.type eq CounterpartyType.Client
-                        ChooseItemType.Providers -> Counterparties.type neq CounterpartyType.Client
-                    }
-                }.orderBy(Pair(Counterparties.id, SortOrder.ASC)).toList()
-
-                respondFreeMaker(
-                    "counterpartiesList.ftl",
-                    mapOf(
-                        "counterparties" to items
-                    )
-                )
-            }
-        }
     }
 }
