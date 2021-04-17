@@ -54,6 +54,10 @@ fun Route.ordersRoute() {
 
                     val params = call.receiveParameters()
 
+                    params.forEach { s, list ->
+                        println("$s: ${list[0]}")
+                    }
+
                     val block: Order.() -> Unit = {
                         when (orderType) {
                             OrderType.Buy -> {
@@ -62,12 +66,12 @@ fun Route.ordersRoute() {
                         }
                     }
 
-                    val id = params["id"]!!.toInt()
-                    if (id > 0) {
-                        Order.findById(id)?.apply(block)
-                    } else {
-                        Order.new(block)
-                    }
+//                    val id = params["id"]!!.toInt()
+//                    if (id > 0) {
+//                        Order.findById(id)?.apply(block)
+//                    } else {
+//                        Order.new(block)
+//                    }
                 }
             }
         }

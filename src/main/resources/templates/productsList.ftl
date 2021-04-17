@@ -20,9 +20,23 @@
             <td>${product.cost}</td>
             <td>
                 <#if product.provider??>
-                    <a href="${product.provider.url}" value="${product.provider.id}">${product.provider.name}</a>
+                    <a href="${product.provider.url}" target="_blank" value="${product.provider.id}">${product.provider.name}</a>
                 </#if>
             </td>
         </tr>
     </#list>
 </tbody>
+<script>
+    var productsList = [
+        <#list items as product>
+        {
+            id: ${product.id},
+            name: "${product.name}",
+            carModel: "${product.carModel}",
+            cost: ${product.cost},
+            providerId: ${product.provider.id},
+            providerName: "${product.provider.name}"
+        },
+        </#list>
+    ];
+</script>

@@ -7,13 +7,13 @@
 <@common.chooseModal/>
 <div class="container">
     <h1 class="mt-3" style="">Заявка на покупку №123123</h1>
-    <form>
+    <form id="submitOrder" action="/orders/submit/Buy" method="post">
         <label class="mt-3">Клиент</label>
         <div>
             <button id="chooseClient" type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#chooseItemModal">...</button>
             <input name="clientId" type="number" class="input-id form-control" hidden value="${(order.counterparty.id)!0}" required>
             <a class="link-name ml-3" href="${(order.counterparty.url)!"#"}">${(order.counterparty.name)!""}</a>
-            <a style="float: right;" href="/counterparties/submit">Новый клиент</a>
+            <a style="float: right;" target="_blank" href="/counterparties/submit">Новый клиент</a>
         </div>
         <label class="mt-3">Способ оплаты</label>
         <select class="form-control" required>
@@ -26,6 +26,7 @@
             <a href="/products/submit" target="_blank" style="float: right;">Новый тип товара</a>
         </div>
 
+        <input id="selectedProducts" type="text" hidden name="products" value="[]">
         <table class="table mt-3" style="">
             <thead>
             <tr>
@@ -42,7 +43,7 @@
                     <tr class="productMoveRow">
                         <th scope="row" value="${productMove.id}">1</th>
                         <td value="${productMove.productType.id}">${productMove.productType.name}</td>
-                        <td>${productMove.count}</td>
+                        <td><input type="number" value="${productMove.count}"></td>
                         <td>${productMove.productType.cost}</td>
                         <td value="${productMove.provider.id}">${productMove.provider.name}</td>
                         <td>

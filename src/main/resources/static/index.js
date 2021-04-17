@@ -4,8 +4,10 @@ $(function() {
     });
 
     var chooseItemType = ""
+    var chooseItemTypeOld = chooseItemType;
 
     $('#chooseItemModal').on('shown.bs.modal', function () {
+        if (chooseItemTypeOld != chooseItemType) $('#modalTable').empty();
         var xhr = new XMLHttpRequest();
         xhr.responseType = "text"
         xhr.addEventListener("load", function() {
@@ -13,6 +15,7 @@ $(function() {
         });
         xhr.open("GET", "/list/" + chooseItemType);
         xhr.send();
+        chooseItemTypeOld = chooseItemType;
     });
 
     function getModalSelectedRow() { return $("#modalTable tbody tr.highlight") }
@@ -41,6 +44,22 @@ $(function() {
         chooseListener($(this).parent());
     });
 
+    $("#submitOrder").submit(function() {
+        var products = [];
+
+        $(".productMoveRow").each(function() {
+            var row = $(this);
+            var product = productsList[row.index()];
+            products.push({
+                id: product.id,
+                count: row.children(":nth-child(3)").children().val(),
+                provider: product.providerId
+            });
+        });
+
+        $("#selectedProducts").val(JSON.stringify(products));
+    });
+
     $("#addProduct").click(function() {
        chooseItemType = "Products"
 
@@ -48,6 +67,8 @@ $(function() {
             var row = getModalSelectedRow()
 
             var id = getRowId(row);
+            var product = productsList[row.index()];
+
             var notExists = true;
             $('.buyProductId').each(function() {
                 console.log($(this).attr("value"));
@@ -56,10 +77,10 @@ $(function() {
             if (notExists) {
                 var tr = $('<tr class="productMoveRow"></tr>');
                 tr.append($('<th scope="row">'+($("#productsTableBody").children().length+1)+'</th>')); // #
-                tr.append($('<td class="buyProductId" value="'+id+'">'+getRowName(row)+'</td>')); // name
-                tr.append($('<td><input type="number" min="1" class="productCount" value="1"></input></td>')); // count
-                tr.append($('<td>'+getRowCellText(row, 5)+'</td>')); // cost
-                tr.append($('<td value="'+getRowCellValue(row, 6)+'">'+getRowCellText(row, 6)+'</td>')); // provider
+                tr.append($('<td class="buyProductId" value="'+product.id+'">'+product.name+'</td>')); // name
+                tr.append($('<td><input type="number" min="1" class="productCount" value="1"></td>')); // count
+                tr.append($('<td>'+product.cost+'</td>')); // cost
+                tr.append($('<td>'+product.providerName+'</td>')); // provider
 
                 var deleteButton = $('<button class="btn btn-outline-secondary deleteProduct" title="Удалить">X</button>');
                 deleteButton.click(function() {
