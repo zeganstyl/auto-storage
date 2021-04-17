@@ -37,16 +37,16 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="productsTableBody">
                 <#list productMoves as productMove>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>${productMove.productType.name}</td>
+                    <tr class="productMoveRow">
+                        <th scope="row" value="${productMove.id}">1</th>
+                        <td value="${productMove.productType.id}">${productMove.productType.name}</td>
                         <td>${productMove.count}</td>
                         <td>${productMove.productType.cost}</td>
-                        <td>${productMove.provider.name}</td>
+                        <td value="${productMove.provider.id}">${productMove.provider.name}</td>
                         <td>
-                            <button class="btn btn-outline-secondary" title="Удалить">X</button>
+                            <button class="btn btn-outline-secondary deleteProduct" title="Удалить">X</button>
                         </td>
                     </tr>
                 </#list>

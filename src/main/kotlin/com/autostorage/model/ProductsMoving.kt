@@ -7,7 +7,7 @@ object ProductsMoving: IntIdTable() {
 
     val productType = reference("productType", ProductTypes)
 
-    val provider = reference("provider", Counterparties)
+    val provider = reference("provider", Counterparties).nullable()
 
     val count = integer("count")
 }
