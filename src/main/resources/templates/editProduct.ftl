@@ -18,19 +18,17 @@
         <input name="carModel" type="text" class="form-control" value="${(product.carModel)!""}">
         <label class="mt-3">Требуемое минимальное количество на складе</label>
         <input name="minRequired" type="number" min="0" class="form-control" value="${(product.minRequired)!0}">
-        <label class="mt-3">Максимальное количество на складе</label>
-        <input name="maxRequired" type="number" min="0" class="form-control" value="${(product.maxRequired)!0}">
         <label class="mt-3">Стоимость</label>
         <input name="cost" type="number" class="form-control" value="${(product.cost)!0}">
         <label class="mt-3">Поставщик</label>
         <div class="mt-3">
-            <button id="chooseProvider" type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#chooseItemModal">...</button>
+            <button type="button" class="chooseProvider btn btn-outline-secondary" data-toggle="modal" data-target="#chooseItemModal">...</button>
             <input name="providerId" type="number" class="input-id form-control" hidden value="${(product.provider.id)!0}" required>
             <a class="link-name ml-3" href="${(product.provider.url)!"#"}">${(product.provider.name)!""}</a>
             <a style="float: right;" href="/counterparties/submit">Новый поставщик</a>
         </div>
         <label class="mt-3">Примечание</label>
-        <textarea class="form-control">${(product.note)!""}</textarea>
+        <textarea name="note" class="form-control">${(product.note)!""}</textarea>
         <div class="mt-3">
             <button type="submit" style="float: right; width: 200px;" class="btn btn-primary">Принять</button>
         </div>

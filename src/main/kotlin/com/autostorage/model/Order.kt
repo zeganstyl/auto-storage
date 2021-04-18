@@ -12,12 +12,18 @@ class Order(id: EntityID<Int>) : IntEntity(id) {
     var completionTime by Orders.completionTime
     var note by Orders.note
     var status by Orders.status
+    var paymentMethod by Orders.paymentMethod
 
     var counterparty by Counterparty referencedOn Orders.counterparty
+
+    val productMoves by ProductMove referrersOn ProductsMoving.order
 
     val url: String
         get() = "${PATH.orders}/${id.value}"
 
     val createTimeView
-        get() = createTime.toString("YYYY-MM-dd")
+        get() = createTime.toString("YYYY-MM-dd HH:mm")
+
+    val completionTimeView
+        get() = completionTime?.toString("YYYY-MM-dd HH:mm") ?: ""
 }

@@ -10,6 +10,8 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.neq
@@ -35,7 +37,7 @@ fun Application.routes() {
                         "storage.ftl",
                         mapOf(
                             "user" to user,
-                            "storedProducts" to StoredProduct.allList(),
+                            "products" to StoredProduct.allList(),
                             "navLinks" to NavLink.values(),
                             "activeLink" to NavLink.Storage
                         )

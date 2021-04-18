@@ -32,10 +32,10 @@
         {
             id: ${product.id},
             name: "${product.name}",
-            carModel: "${product.carModel}",
             cost: ${product.cost},
             providerId: ${product.provider.id},
-            providerName: "${product.provider.name}"
+            providerName: "${product.provider.name}",
+            providerUrl: "${product.provider.url}"
         },
         </#list>
     ];

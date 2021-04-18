@@ -10,4 +10,9 @@ object ProductsMoving: IntIdTable() {
     val provider = reference("provider", Counterparties).nullable()
 
     val count = integer("count")
+
+    // Для каждой позиции нужно указать стоимость отдельно, так как цена на товар может в будущем измениться
+    val cost = float("cost").default(0f)
+
+    val note = text("note").default("")
 }

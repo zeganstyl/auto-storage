@@ -68,7 +68,6 @@ fun Route.productsRoute() {
                     val block: ProductType.() -> Unit = {
                         params["name"]?.also { name = it }
                         params["carModel"]?.also { carModel = it }
-                        params["maxRequired"]?.toIntOrNull()?.also { maxRequired = it }
                         params["minRequired"]?.toIntOrNull()?.also { minRequired = it }
                         params["model"]?.also { model = it }
                         params["providerId"]?.toIntOrNull()?.also { Counterparty.findById(it).also { provider = it } }

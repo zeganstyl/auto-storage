@@ -72,3 +72,40 @@
     </div>
 </div>
 </#macro>
+
+<#macro selectProductsTable>
+<div class="mt-3">
+    <button id="addProduct" type="button" class="btn btn-outline-secondary" style="width: 200px; text-align: center;" data-toggle="modal" data-target="#chooseItemModal">Добавить товар</button>
+    <a href="/products/submit" target="_blank" style="float: right;">Новый тип товара</a>
+</div>
+
+<input id="selectedProducts" type="text" hidden name="products" value="[]">
+<table class="table mt-3" style="">
+    <thead>
+    <tr>
+        <th title="Позиция">#</th>
+        <th>Товар</th>
+        <th width="100px">Штук</th>
+        <th width="100px">Цена, ₽</th>
+        <th>Поставщик</th>
+        <th>Примечание</th>
+        <th title="Удалить">X</th>
+    </tr>
+    </thead>
+    <tbody id="productsTableBody">
+<!--    <#list productMoves as productMove>-->
+<!--    <tr class="productMoveRow">-->
+<!--        <th scope="row" value="${productMove.id}">1</th>-->
+<!--        <td value="${productMove.productType.id}">${productMove.productType.name}</td>-->
+<!--        <td><input type="number" value="${productMove.count}"></td>-->
+<!--        <td>${productMove.productType.cost}</td>-->
+<!--        <td value="${productMove.provider.id}">${productMove.provider.name}</td>-->
+<!--        <td><textarea name="note">${productMove.note}</textarea></td>-->
+<!--        <td>-->
+<!--            <button class="btn btn-outline-secondary deleteProduct" title="Удалить">X</button>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    </#list>-->
+    </tbody>
+</table>
+</#macro>

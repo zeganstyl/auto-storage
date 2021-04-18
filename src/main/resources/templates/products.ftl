@@ -17,8 +17,8 @@
             <th>Марка</th>
             <th>Поставщик</th>
             <th>Стоимость</th>
-            <th>Мин.</th>
-            <th>Макс.</th>
+            <th title="Необходимый минимум на складе">Мин.</th>
+            <th>Примечание</th>
         </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
             </td>
             <td>${product.cost}</td>
             <td>${product.minRequired}</td>
-            <td>${product.maxRequired}</td>
+            <td>${product.note}</td>
         </tr>
         </#list>
         </tbody>

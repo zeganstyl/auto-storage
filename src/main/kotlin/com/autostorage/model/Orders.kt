@@ -7,7 +7,7 @@ import org.joda.time.DateTime
 object Orders: IntIdTable() {
     val type = enumeration("type", OrderType::class)
 
-    val status = enumeration("status", OrderStatus::class)
+    val status = enumeration("status", OrderStatus::class).default(OrderStatus.New)
 
     val createTime = datetime("createTime").default(DateTime.now())
 
@@ -16,4 +16,6 @@ object Orders: IntIdTable() {
     val note = text("note").default("")
 
     val counterparty = reference("counterparty", Counterparties)
+
+    val paymentMethod = enumeration("paymentMethod", PaymentMethod::class).default(PaymentMethod.No)
 }

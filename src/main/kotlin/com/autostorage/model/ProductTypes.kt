@@ -14,7 +14,6 @@ object ProductTypes: IntIdTable() {
     val cost = float("cost").default(0f)
 
     val minRequired = integer("minRequired").default(0)
-    val maxRequired = integer("maxRequired").default(0)
 
     val note = text("note").default("")
 }

@@ -8,7 +8,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 class ProductType(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ProductType>(ProductTypes)
     var carModel by ProductTypes.carModel
-    var maxRequired by ProductTypes.maxRequired
     var minRequired by ProductTypes.minRequired
     var model by ProductTypes.model
     var name by ProductTypes.name

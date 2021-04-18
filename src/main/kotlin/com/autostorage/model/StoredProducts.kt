@@ -9,9 +9,9 @@ object StoredProducts: IntIdTable() {
 
     val status = enumeration("status", ProductStatus::class)
 
-    val count = integer("count").default(0)
-
     val cell = text("cell").default("")
 
     val note = text("note").default("")
+
+    val acceptanceOrder = reference("acceptanceOrder", Orders)
 }

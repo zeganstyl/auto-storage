@@ -11,28 +11,24 @@
             <th>№</th>
             <th>Наименование</th>
             <th>Ячейка</th>
-            <th>Штук</th><th>Прим.</th>
+            <th title="Заявка приемки">Принят по</th>
+            <th>Примечание</th>
         </tr>
         </thead>
         <tbody>
+        <#list products as product>
         <tr>
-            <th scope="row" style="text-decoration-line: underline; color: rgb(0, 128, 255);">1</th>
-            <td>Дверное стекло</td>
-            <td>А1-11-В2</td>
-            <td>20</td><td></td>
+            <th scope="row">
+                <a href="${product.url}">${product.id}</a>
+            </th>
+            <td>${product.name}</td>
+            <td>${product.cell}</td>
+            <td>
+                <a href="${product.acceptanceOrder.url}">${product.acceptanceOrder.id}</a>
+            </td>
+            <td>${product.note}</td>
         </tr>
-        <tr>
-            <th scope="row" style="text-decoration-line: underline; color: rgb(0, 128, 255);">2</th>
-            <td>Фара</td>
-            <td>...</td>
-            <td>5</td>
-        </tr>
-        <tr>
-            <th scope="row" style="color: rgb(0, 128, 255); text-decoration-line: underline;">3</th>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-        </tr>
+        </#list>
         </tbody>
     </table>
 </div>

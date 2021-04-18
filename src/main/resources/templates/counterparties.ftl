@@ -16,6 +16,7 @@
             <th>Тип</th>
             <th>Телефон</th>
             <th>Email</th>
+            <th>Примечание</th>
         </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
                 <td>${counterparty.type.nameView}</td>
                 <td>${counterparty.phone}</td>
                 <td>${counterparty.email}</td>
+                <td>${counterparty.note}</td>
             </tr>
         </#list>
         </tbody>

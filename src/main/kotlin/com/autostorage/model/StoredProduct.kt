@@ -10,7 +10,7 @@ class StoredProduct(id: EntityID<Int>) : IntEntity(id) {
     var type by StoredProducts.type
     var status by StoredProducts.status
     var cell by StoredProducts.cell
-    var count by StoredProducts.count
+    var acceptanceOrder by Order referencedOn StoredProducts.acceptanceOrder
     var note by StoredProducts.note
 
     val url: String
