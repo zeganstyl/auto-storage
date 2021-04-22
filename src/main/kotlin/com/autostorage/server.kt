@@ -1,6 +1,7 @@
 package com.autostorage
 
 import com.autostorage.model.User
+import com.autostorage.model.UserRole
 import com.autostorage.model.initDB
 import com.autostorage.routes.routes
 import io.ktor.application.*
@@ -86,18 +87,23 @@ fun <T: Entity<Int>> EntityClass<Int, T>.getOrThrow(id: Int, message: String? = 
 
 fun PipelineContext<Unit, ApplicationCall>.idParam(): Int = call.parameters.getOrFail<Int>("id")
 
+suspend fun respondLogin(call: ApplicationCall, path: String? = null) {
+    call.respond(
+        FreeMarkerContent(
+            "login.ftl",
+            mapOf(
+                "path" to (path ?: call.request.path()),
+                "roles" to UserRole.values()
+            )
+        )
+    )
+}
+
 suspend fun ApplicationCall.authorize(block: suspend (user: User) -> Unit) {
     val user = sessions.get<ExpirableLoginSession>()?.user
 
     if (user == null) {
-        respond(
-            FreeMarkerContent(
-                "login.ftl",
-                mapOf(
-                    "path" to request.path()
-                )
-            )
-        )
+        respondLogin(this)
     } else {
         newSuspendedTransaction {
             block(user)

@@ -1,11 +1,10 @@
 package com.autostorage.routes
 
 import com.autostorage.ExpirableLoginSession
-import com.autostorage.model.UserRole
 import com.autostorage.model.getUser
+import com.autostorage.respondLogin
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.freemarker.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -14,15 +13,7 @@ import io.ktor.sessions.*
 fun Route.loginRoute() {
     route(PATH.login) {
         get {
-            call.respond(
-                FreeMarkerContent(
-                    "login.ftl",
-                    mapOf(
-                        "path" to "/",
-                        "roles" to UserRole.values()
-                    )
-                )
-            )
+            respondLogin(call, "/")
         }
 
         post {
