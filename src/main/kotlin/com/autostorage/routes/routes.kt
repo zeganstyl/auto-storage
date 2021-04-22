@@ -152,7 +152,7 @@ fun Application.routes() {
 
                 post {
                     authorize { user ->
-                        val params = call.parameters
+                        val params = call.receiveParameters()
 
                         val prod = StoredProduct.findById(params["id"]?.toIntOrNull() ?: throw NotFoundException("")) ?: throw NotFoundException("")
                         params["cell"]?.also { prod.cell = it }

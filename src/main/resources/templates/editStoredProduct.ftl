@@ -19,9 +19,9 @@
             <a href="${product.acceptanceOrder.url}">${product.acceptanceOrder.id}</a>
         </div>
         <label class="mt-3">Ячейка</label>
-        <input name="cell" type="text" required class="form-control" value="${(product.cell)!""}">
+        <input name="cell" type="text" required class="form-control" value="${product.cell}">
         <label class="mt-3">Примечание</label>
-        <textarea name="note" class="form-control">${(product.note)!""}</textarea>
+        <textarea name="note" class="form-control">${product.note}</textarea>
         <div class="mt-3">
             <button type="submit" style="float: right; width: 200px;" class="btn btn-primary">Принять</button>
         </div>
