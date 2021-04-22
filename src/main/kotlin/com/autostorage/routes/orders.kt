@@ -21,6 +21,7 @@ import io.ktor.routing.*
 import kotlinx.serialization.decodeFromString
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -96,9 +97,9 @@ fun Route.orderPost() {
                                 }
                             }
                             OrderType.Buy, OrderType.ReturnToProvider -> {
-                                order.productMoves.forEach {
-                                    StoredProducts.deleteWhere(limit = it.count) {
-                                        StoredProducts.type eq it.productType.id
+                                order.productMoves.forEach { move ->
+                                    StoredProducts.select { StoredProducts.type eq move.productType.id }.limit(move.count).forEach { row ->
+                                        StoredProduct.wrapRow(row).delete()
                                     }
                                 }
                             }
