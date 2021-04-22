@@ -25,6 +25,7 @@ import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
@@ -44,6 +45,7 @@ fun Application.module(testing: Boolean = false) {
     install(FreeMarker) {
         setClassForTemplateLoading(this::class.java, "/templates/")
         this.defaultEncoding = "UTF-8"
+        this.locale = Locale("ru_RU")
     }
 
     install(ContentNegotiation) {
