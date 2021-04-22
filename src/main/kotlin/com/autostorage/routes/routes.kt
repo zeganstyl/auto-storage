@@ -88,7 +88,7 @@ fun Application.routes() {
                 ProductTypes.join(StoredProducts, JoinType.LEFT)
                     .slice(StoredProducts.id.count(), ProductTypes.id, ProductTypes.name, ProductTypes.minRequired, ProductTypes.cost)
                     .select { ProductTypes.provider eq providerId }
-                    .groupBy(ProductTypes.id).forEach {
+                    .groupBy(ProductTypes.id).orderBy(ProductTypes.id).forEach {
                         val type = ProductType.wrapRow(it)
 
                         val countToBuy = type.minRequired - it[StoredProducts.id.count()].toInt()

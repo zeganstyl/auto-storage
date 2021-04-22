@@ -148,7 +148,7 @@ fun Route.ordersRoute() {
                     "orders.ftl",
                     mapOf(
                         "user" to user,
-                        "orders" to Order.all().map { it },
+                        "orders" to Order.allList(),
                         "navLinks" to NavLink.values(),
                         "activeLink" to NavLink.Orders,
                         "orderTypes" to OrderType.values()

@@ -46,7 +46,7 @@ fun Route.statsRoute() {
                     }
                 ).slice(
                     ProductTypes.id, ProductTypes.name, ProductsMoving.count.sum()
-                ).selectAll().groupBy(ProductTypes.id).forEach {
+                ).selectAll().groupBy(ProductTypes.id).orderBy(ProductTypes.id).forEach {
                     val type = ProductType.wrapRow(it)
                     stats[type.id.value] = ProductStat(type, it[ProductsMoving.count.sum()] ?: 0, 0, 0)
                 }
@@ -69,7 +69,7 @@ fun Route.statsRoute() {
                     }
                 ).slice(
                     ProductTypes.id, ProductTypes.name, ProductsMoving.count.sum()
-                ).selectAll().groupBy(ProductTypes.id).forEach { resultRow ->
+                ).selectAll().groupBy(ProductTypes.id).orderBy(ProductTypes.id).forEach { resultRow ->
                     val type = ProductType.wrapRow(resultRow)
                     val prod = stats[type.id.value] ?: ProductStat(type, 0, 0, 0).also { stats[type.id.value] = it }
                     prod.purchased = resultRow[ProductsMoving.count.sum()]!!
