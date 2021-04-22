@@ -27,7 +27,7 @@
     </#list>
 </tbody>
 <script>
-    var productsList = [
+    productsList = [
         <#list items as product>
         {
             id: ${product.id},

@@ -1,7 +1,5 @@
 package com.autostorage
 
-import com.autostorage.model.Counterparties
-import com.autostorage.model.Counterparty
 import com.autostorage.model.User
 import com.autostorage.model.initDB
 import com.autostorage.routes.routes

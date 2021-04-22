@@ -34,9 +34,7 @@
         <td scope="row">
             <a href="${order.url}">${order.id}</a>
         </td>
-        <td>
-            <a href="${order.counterparty.url}">${order.counterparty.name}</a>
-        </td>
+        <td>${order.counterparty.name}</td>
         <td>${order.type.nameView}</td>
         <td>${order.status.nameView}</td>
         <td>${order.createTimeView}</td>

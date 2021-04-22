@@ -7,8 +7,6 @@ import org.joda.time.DateTime
 object StoredProducts: IntIdTable() {
     val type = reference("type", ProductTypes)
 
-    val status = enumeration("status", ProductStatus::class)
-
     val cell = text("cell").default("")
 
     val note = text("note").default("")

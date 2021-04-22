@@ -1,5 +1,6 @@
 package com.autostorage.routes
 
+import com.autostorage.allList
 import com.autostorage.authorize
 import com.autostorage.badRequest
 import com.autostorage.jsonConfig
@@ -10,13 +11,20 @@ import com.autostorage.model.OrderType
 import com.autostorage.model.PaymentMethod
 import com.autostorage.model.ProductMove
 import com.autostorage.model.ProductType
+import com.autostorage.model.StoredProduct
+import com.autostorage.model.StoredProducts
 import com.autostorage.respondFreeMaker
 import io.ktor.application.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import kotlinx.serialization.decodeFromString
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.selectAll
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 
 fun Route.orderGet() {
     get {
@@ -36,7 +44,8 @@ fun Route.orderGet() {
                     "productMoves" to (order?.productMoves?.toList() ?: emptyList()),
                     "orderType" to orderType,
                     "orderStatuses" to OrderStatus.values(),
-                    "isSupply" to (orderType == OrderType.Supply)
+                    "isSupply" to (orderType == OrderType.Supply),
+                    "productTypes" to ProductType.allList()
                 )
             )
         }
@@ -46,6 +55,8 @@ fun Route.orderGet() {
 fun Route.orderPost() {
     post {
         authorize {
+            val orderId = call.parameters["id"]?.toIntOrNull() ?: 0
+
             val params = call.receiveParameters()
 
             val block: Order.() -> Unit = {
@@ -54,16 +65,44 @@ fun Route.orderPost() {
                 params["paymentMethod"]?.also { this.paymentMethod = PaymentMethod.valueOf(it) }
             }
 
-            val id = call.parameters["id"]?.toIntOrNull() ?: 0
             var isNew = false
-            val order = if (id > 0) {
-                val order = Order[id]
+            val order = if (orderId > 0) {
+                val order = Order[orderId]
                 val oldStatus = order.status
+
+                if (oldStatus == OrderStatus.Completed || oldStatus == OrderStatus.Canceled) return@authorize
+
                 order.apply(block)
+                order.status = OrderStatus.valueOf(params["status"]!!)
+
                 val newStatus = order.status
+
                 if (oldStatus != newStatus) {
                     if (newStatus == OrderStatus.Completed || newStatus == OrderStatus.Canceled) {
-                        order.completionTime = DateTime.now()
+                        order.completionTime = DateTime(DateTimeZone.UTC)
+                    }
+
+                    if (newStatus == OrderStatus.Completed) {
+                        when (order.type) {
+                            OrderType.Supply, OrderType.Return -> {
+                                order.productMoves.forEach {
+                                    val count = it.count
+                                    for (i in 0 until count) {
+                                        StoredProduct.new {
+                                            this.acceptanceOrder = order
+                                            this.type = it.productType
+                                        }
+                                    }
+                                }
+                            }
+                            OrderType.Buy, OrderType.ReturnToProvider -> {
+                                order.productMoves.forEach {
+                                    StoredProducts.deleteWhere(limit = it.count) {
+                                        StoredProducts.type eq it.productType.id
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 order
@@ -77,14 +116,21 @@ fun Route.orderPost() {
             }
 
             jsonConfig.decodeFromString<List<ProductMoveDTO>>(params["products"]!!).forEach { dto ->
-                ProductMove.new {
-                    this.order = order
+                val moveBlock: ProductMove.() -> Unit = {
                     this.count = dto.count
                     this.productType = ProductType[dto.id].also {
                         if (isNew) this.cost = it.cost
                     }
                     this.provider = Counterparty.findById(dto.provider)
                     this.note = dto.note
+                }
+                if (dto.moveId > 0) {
+                    moveBlock(ProductMove[dto.moveId])
+                } else {
+                    ProductMove.new {
+                        this.order = order
+                        moveBlock()
+                    }
                 }
             }
 

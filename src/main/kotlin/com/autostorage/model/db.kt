@@ -34,6 +34,11 @@ fun initDB() {
             jdbcUrl = "jdbc:h2:file:./ru.urfu.idea.db-test"
         }
 
+//        username = "postgres"
+//        password = "postgres"
+//        jdbcUrl = "jdbc:postgresql://localhost:5432/auto-storage"
+//        driverClassName = "org.postgresql.Driver"
+
         maximumPoolSize = 3
         isAutoCommit = false
         transactionIsolation = "TRANSACTION_REPEATABLE_READ"
@@ -45,8 +50,6 @@ fun initDB() {
     transaction {
         SchemaUtils.create(
             Orders,
-            ProductGroups,
-            ProductGrouping,
             ProductsMoving,
             ProductTypes,
             Counterparties,

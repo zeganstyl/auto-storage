@@ -1,8 +1,8 @@
 package com.autostorage.model
 
-enum class CounterpartyType(val nameView: String) {
-    Client("Клиент"),
-    ProviderCompany("Компания-поставщик"),
-    ProviderManufacturer("Производитель-поставщик"),
-    ProviderDealer("Дилер-поставщик")
+enum class CounterpartyType(val nameView: String, val isProvider: Boolean) {
+    Client("Клиент", false),
+    ProviderCompany("Компания-поставщик", true),
+    ProviderManufacturer("Производитель-поставщик", true),
+    ProviderDealer("Дилер-поставщик", true)
 }

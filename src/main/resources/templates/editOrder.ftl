@@ -3,10 +3,24 @@
 <html>
 
 <script>
+    var productsList = [
+        <#list productTypes as product>
+        {
+            id: ${product.id},
+            name: "${product.name}",
+            cost: ${product.cost},
+            providerId: ${product.provider.id},
+            providerName: "${product.provider.name}",
+            providerUrl: "${product.provider.url}"
+        },
+        </#list>
+    ];
+
     var addedProducts = [
         <#list productMoves as move>
         {
             id: ${move.productType.id},
+            moveId: ${move.id},
             name: "${move.productType.name}",
             cost: ${move.cost},
             count: ${move.count},
@@ -25,12 +39,11 @@
 <@common.chooseModal/>
 <div class="container">
     <h1 class="mt-3" style="">${orderType.nameView}<#if order??> №${order.id}</#if></h1>
-    <form id="submitOrder" action="/orders/submit/${orderType}" method="post">
-        <input type="number" name="id" hidden value="${(order.id)!0}">
+    <form id="submitOrder" method="post">
         <label class="mt-3">${orderType.counterpartyName}</label>
         <div>
             <button type="button" class="${orderType.chooseClass} btn btn-outline-secondary" data-toggle="modal" data-target="#chooseItemModal">...</button>
-            <input name="counterparty" type="number" class="input-id form-control" hidden value="${(order.counterparty.id)!0}" required>
+            <input id="counterpartyId" name="counterparty" type="number" class="input-id form-control" hidden value="${(order.counterparty.id)!0}" required>
             <a class="link-name ml-3" href="${(order.counterparty.url)!"#"}">${(order.counterparty.name)!""}</a>
             <a style="float: right;" target="_blank" href="/counterparties/submit">${orderType.new}</a>
         </div>
@@ -46,20 +59,13 @@
         <label class="mt-3">Статус заявки</label>
         <select name="status" class="form-control" required>
             <#list orderStatuses as status>
-            <option value="${status}" <#if order?? && order.status == order>selected</#if>>${status.nameView}</option>
+            <option value="${status}" <#if order?? && order.status == status>selected</#if>>${status.nameView}</option>
             </#list>
         </select>
         </#if>
 
         <label class="mt-3">Примечание</label>
         <textarea name="note" class="form-control">${(order.note)!""}</textarea>
-
-        <#if isSupply>
-        <div class="mt-3">
-            <button id="supplyByOrders" type="button" class="btn btn-outline-secondary" style="width: 200px; text-align: center;">Закупить по заказам</button>
-            <button id="supplyByStorage" type="button" class="btn btn-outline-secondary" style="width: 200px; text-align: center;">Пополнить запасы</button>
-        </div>
-        </#if>
 
         <@common.selectProductsTable/>
 

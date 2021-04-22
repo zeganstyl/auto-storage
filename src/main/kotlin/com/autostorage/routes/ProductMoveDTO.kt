@@ -5,7 +5,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ProductMoveDTO(
     val id: Int,
-    val count: Int,
+    var count: Int,
     val provider: Int,
-    val note: String = ""
+    var note: String = "",
+    val name: String? = null,
+    val cost: Float? = null,
+    val providerId: Int? = null,
+    val providerName: String? = null,
+    val providerUrl: String? = null,
+    val moveId: Int = 0
 )

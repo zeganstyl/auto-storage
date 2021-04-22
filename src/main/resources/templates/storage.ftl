@@ -21,7 +21,7 @@
             <th scope="row">
                 <a href="${product.url}">${product.id}</a>
             </th>
-            <td>${product.name}</td>
+            <td>${product.type.name}</td>
             <td>${product.cell}</td>
             <td>
                 <a href="${product.acceptanceOrder.url}">${product.acceptanceOrder.id}</a>

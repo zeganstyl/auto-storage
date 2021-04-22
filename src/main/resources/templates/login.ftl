@@ -12,10 +12,9 @@
                         <img class="profile-img img-fluid rounded-circle" src="/static/user.svg" alt="">
                         <form class="form-signin" action="/login" method="post">
                             <select name="login" class="form-control" required autofocus>
-                                <option value="Seller">Продавец</option>
-                                <option value="Manger">Менеджер</option>
-                                <option value="StorageKeeper">Кладовщик</option>
-                                <option value="Root">Админ</option>
+                                <#list roles as role>
+                                <option value="${role}">${role.nameView}</option>
+                                </#list>
                             </select>
                             <input name="path" hidden class="form-control" value="${path}">
                             <input type="submit" class="btn btn-lg btn-default btn-block" value="Войти">
