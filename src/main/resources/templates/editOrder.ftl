@@ -6,10 +6,10 @@
     var productsList = [
         <#list productTypes as product>
         {
-            id: ${product.id?c},
+            id: ${product.id},
             name: "${product.name}",
-            cost: ${product.cost?c},
-            providerId: ${product.provider.id?c},
+            cost: ${product.cost},
+            providerId: ${product.provider.id},
             providerName: "${product.provider.name}",
             providerUrl: "${product.provider.url}"
         },
@@ -19,13 +19,13 @@
     var addedProducts = [
         <#list productMoves as move>
         {
-            id: ${move.productType.id?c},
-            moveId: ${move.id?c},
+            id: ${move.productType.id},
+            moveId: ${move.id},
             name: "${move.productType.name}",
-            cost: ${move.cost?c},
-            count: ${move.count?c},
+            cost: ${move.cost},
+            count: ${move.count},
             note: "${move.note}",
-            providerId: ${move.provider.id?c},
+            providerId: ${move.provider.id},
             providerName: "${move.provider.name}",
             providerUrl: "${move.provider.url}"
         },

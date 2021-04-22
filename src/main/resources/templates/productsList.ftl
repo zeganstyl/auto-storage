@@ -30,10 +30,10 @@
     productsList = [
         <#list items as product>
         {
-            id: ${product.id?c},
+            id: ${product.id},
             name: "${product.name}",
-            cost: ${product.cost?c},
-            providerId: ${product.provider.id?c},
+            cost: ${product.cost},
+            providerId: ${product.provider.id},
             providerName: "${product.provider.name}",
             providerUrl: "${product.provider.url}"
         },

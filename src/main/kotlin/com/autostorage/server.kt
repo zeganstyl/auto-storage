@@ -46,6 +46,7 @@ fun Application.module(testing: Boolean = false) {
         setClassForTemplateLoading(this::class.java, "/templates/")
         this.defaultEncoding = "UTF-8"
         this.locale = Locale("ru_RU")
+        numberFormat = "computer"
     }
 
     install(ContentNegotiation) {
