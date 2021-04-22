@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/kotme3d.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/auto-storage.jar
